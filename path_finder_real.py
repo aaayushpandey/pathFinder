@@ -4,7 +4,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
-import seaborn as sns
 
 class RealisticCampusNavigator:
     def __init__(self, master):
@@ -22,18 +21,18 @@ class RealisticCampusNavigator:
         self.create_interface()
 
     def create_realistic_campus(self):
-        # Define buildings with more realistic positioning
+        # Define buildings with more structured positioning
         buildings = {
-            "Main Academic Building": (0.4, 0.6),
-            "Science Complex": (0.7, 0.7),
-            "Library": (0.5, 0.4),
-            "Student Center": (0.3, 0.5),
+            "Main Academic Building": (0.3, 0.7),
+            "Science Complex": (0.6, 0.8),
+            "Library": (0.4, 0.5),
+            "Student Center": (0.5, 0.4),
             "Sports Arena": (0.8, 0.3),
-            "Engineering Building": (0.6, 0.5),
-            "Medical Center": (0.2, 0.7),
+            "Engineering Building": (0.7, 0.5),
+            "Medical Center": (0.2, 0.6),
             "Arts Building": (0.4, 0.2),
-            "Dormitory North": (0.1, 0.4),
-            "Dormitory South": (0.1, 0.6)
+            "Dormitory North": (0.1, 0.5),
+            "Dormitory South": (0.1, 0.3)
         }
 
         # Add nodes with precise positions
@@ -41,17 +40,20 @@ class RealisticCampusNavigator:
             self.graph.add_node(building)
             self.node_positions[building] = pos
 
-        # Add realistic road connections
+        # Comprehensive road connections to ensure connectivity
         road_connections = [
-            ("Main Academic Building", "Library", 0.4),
-            ("Main Academic Building", "Student Center", 0.3),
-            ("Science Complex", "Engineering Building", 0.2),
+            ("Main Academic Building", "Library", 0.3),
+            ("Main Academic Building", "Medical Center", 0.3),
+            ("Main Academic Building", "Student Center", 0.4),
+            ("Science Complex", "Engineering Building", 0.3),
             ("Library", "Student Center", 0.2),
+            ("Library", "Engineering Building", 0.3),
             ("Sports Arena", "Engineering Building", 0.3),
             ("Medical Center", "Dormitory North", 0.3),
-            ("Arts Building", "Student Center", 0.2),
-            ("Dormitory North", "Dormitory South", 0.2),
-            ("Main Academic Building", "Science Complex", 0.5)
+            ("Arts Building", "Student Center", 0.3),
+            ("Dormitory North", "Dormitory South", 0.3),
+            ("Main Academic Building", "Science Complex", 0.4),
+            ("Student Center", "Dormitory South", 0.3)
         ]
 
         for start, end, weight in road_connections:
@@ -100,19 +102,22 @@ class RealisticCampusNavigator:
         # Create figure with campus-like background
         plt.style.use('classic')
         fig, ax = plt.subplots(figsize=(12, 9), dpi=100)
-        ax.set_facecolor('#F0F4F8')  # Light blue-gray background
+        ax.set_facecolor('#F5F5F5')  # Light gray background
 
         # Add campus ground texture
-        ax.add_patch(plt.Rectangle((0, 0), 1, 1, facecolor='#E6EAF0', alpha=0.5, transform=ax.transAxes))
+        ax.add_patch(plt.Rectangle((0, 0), 1, 1, facecolor='#E0E0E0', alpha=0.5, transform=ax.transAxes))
 
-        # Draw roads
+        # Draw grid-like roads
         road_color = '#A0A0A0'
         road_width = 0.02
 
-        # Horizontal and vertical roads
+        # Horizontal roads
         for pos in [0.2, 0.5, 0.8]:
             ax.add_patch(plt.Rectangle((0, pos-road_width/2), 1, road_width, 
                                         facecolor=road_color, alpha=0.5, transform=ax.transAxes))
+
+        # Vertical roads
+        for pos in [0.3, 0.6, 0.9]:
             ax.add_patch(plt.Rectangle((pos-road_width/2, 0), road_width, 1, 
                                         facecolor=road_color, alpha=0.5, transform=ax.transAxes))
 
